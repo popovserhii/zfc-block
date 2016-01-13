@@ -1,0 +1,30 @@
+<?php
+/**
+ * Action panel template
+ *
+ * @category Ageme
+ * @package Ageme_Block
+ * @author Popov Sergiy <popov@agere.com.ua>
+ * @datetime: 10.05.15 23:45
+ */
+?>
+<div class="btn-group" <?= $block->renderAttrs($block->get('attrs')) ?>>
+	<button type="button" class="btn btn-warning btn-xs"><?= $this->translate('Action') ?></button>
+	<button type="button" class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">
+		<span class="caret"></span>
+		<span class="sr-only"><?= $this->translate('Toggle Dropdown') ?></span>
+	</button>
+	<ul class="dropdown-menu" role="menu">
+		<?php $groups = $block->groups() ?>
+		<?php $count = count($groups) ?>
+		<?php foreach ($groups as $key => $group) : ?>
+			<?php foreach ($block->actions($group) as $action) : ?>
+				<li data-group="<?= $group ?>"><a href="<?= $this->translate(current($action)) ?>"><?= key($action) ?></a></li>
+			<?php endforeach ?>
+
+			<?php if ($count !== ($key + 1)) : ?>
+				<li class="divider"></li>
+			<?php endif ?>
+		<?php endforeach ?>
+	</ul>
+</div>
