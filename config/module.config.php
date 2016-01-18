@@ -1,16 +1,21 @@
 <?php
-namespace Ageme\Block;
+namespace Agere\Block;
 
 return [
 
 	'assets_bundle' => [
 		'production' => false,
 		'assets' => [
-			'css' => [__DIR__ . '/../view/public/css'],
+			'css' => ['media/css/theme.css', /*__DIR__ . '/../view/public/css'*/],
+			//'less' => ['media/less/theme.less'], // @todo wait fix bug @link https://github.com/neilime/zf2-assets-bundle/issues/37
 			//'js' => ['js'],
 			'js' => [
-				__DIR__ . '/../view/public/js/admin/general.js',
-				__DIR__ . '/../view/public/js/admin/actionPanel.js',
+				//__DIR__ . '/../view/public/js/admin/general.js', //@todo Add files per template, all by once is not good
+
+				'@zfRootPath/libs/twbs/bootstrap/js/button.js',
+				'@zfRootPath/libs/twbs/bootstrap/js/dropdown.js',
+
+				__DIR__ . '/../view/public/js/admin/action-panel.js',
 			],
 			//'media' => ['img', 'fonts']
 		]
@@ -18,7 +23,7 @@ return [
 
 	'view_helpers' => [
 		'invokables' => [
-			'block' => 'Ageme\Block\View\Helper\Block',
+			'block' => 'Agere\Block\View\Helper\Block',
 		],
 		'factories' => [
 			//'block' => ''
@@ -27,15 +32,18 @@ return [
 
 	'service_manager' => [
 		'factories' => [
-			'BlockPluginManager' => 'Ageme\Block\Service\Plugin\BlockPluginFactory',
+			'BlockPluginManager' => 'Agere\Block\Service\Plugin\BlockPluginFactory',
 		],
 	],
 
 	'block_plugins' => [
 		//'invokables' => [],
 		'abstract_factories' => [
-			'Ageme\Block\Service\Factory\BlockFactory',
+			'Agere\Block\Service\Factory\BlockFactory',
 		],
+		'shared' => [
+			'block/admin/toolbar' => false,
+		]
 	],
 
 
@@ -44,8 +52,11 @@ return [
 			'block/admin/items' => [
 				'template' => 'block/items'
 			],
+			'block/admin/toolbar' => [
+				'template' => 'block/toolbar'
+			],
 			/*'block/admin/actionPanel' => [
-				'template' => 'block/actionPanel'
+				'template' => 'block/action-panel'
 			],*/
 		],
 	],
@@ -53,8 +64,10 @@ return [
 
 	'view_manager' => [
 		'template_map' => [
-			'block/items' => __DIR__ . '/../view/ageme/block/items.phtml',
-			'block/actionPanel' => __DIR__ . '/../view/ageme/block/actionPanel.phtml',
+			'block/items' => __DIR__ . '/../view/agere/block/items.phtml',
+			'block/action-panel' => __DIR__ . '/../view/agere/block/action-panel.phtml',
+			'block/toolbar' => __DIR__ . '/../view/agere/block/toolbar.phtml',
+			'block/buttons' => __DIR__ . '/../view/agere/block/buttons.phtml',
 		],
 		'template_path_stack' => [
 			__NAMESPACE__ => __DIR__ . '/../view',

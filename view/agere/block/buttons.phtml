@@ -1,0 +1,26 @@
+<?php
+/**
+ * Buttons template
+ *
+ * @category Agere
+ * @package Agere_Block
+ * @author Popov Sergiy <popov@agere.com.ua>
+ * @datetime: 15.01.2016 15:48
+ */
+?>
+<?php /** @var Agere\Block\Block\Core $block */ ?>
+<?php if (isset($block) && ($buttons = $block->buttons())) : ?>
+	<div class="<?= $block->getButtonsWrapperClass() ?>">
+		<?php foreach ($buttons as $name => $attrs) : ?>
+			<?php $url = ''; ?>
+			<?php $concat = ''; ?>
+			<?php foreach ($attrs as $key => $attr) : ?>
+				<?php if (is_array($attr)) : ?>
+					<?php $attr = $this->url(key($attr), current($attr)); ?>
+				<?php endif ?>
+				<?php $concat .= $block->renderAttr($key, $attr); ?>
+			<?php endforeach ?>
+			<button <?= $concat ?>><?= $this->translate($attrs['title']) ?></button>
+		<?php endforeach ?>
+	</div>
+<?php endif ?>

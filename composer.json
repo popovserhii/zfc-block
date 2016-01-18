@@ -11,6 +11,7 @@
     "autoload": {
         "psr-0": {
             "Agere\\Block\\": "src/"
-        }
+        },
+        "classmap": ["Module.php"]
     }
 }

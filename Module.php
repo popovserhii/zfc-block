@@ -2,12 +2,12 @@
 /**
  * Wrapper for helper of Zend\View
  *
- * @category Ageme
- * @package Ageme_View
+ * @category Agere
+ * @package Agere_View
  * @author Popov Sergiy <popov@agere.com.ua>
  * @datetime: 25.07.14 15:04
  */
-namespace Ageme\Block;
+namespace Agere\Block;
 
 use Zend\Mvc\ModuleRouteListener;
 use Zend\ModuleManager\ModuleManager;
@@ -21,7 +21,7 @@ class Module implements AutoloaderProviderInterface {
 		$serviceListener->addServiceManager(
 			'BlockPluginManager',
 			'block_plugins',
-			'Ageme\Block\Service\Plugin\BlockPluginProviderInterface',
+			'Agere\Block\Service\Plugin\BlockPluginProviderInterface',
 			'getProjectPluginConfig'
 		);
 	}
