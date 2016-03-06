@@ -12,8 +12,8 @@ return [
 			'js' => [
 				//__DIR__ . '/../view/public/js/admin/general.js', //@todo Add files per template, all by once is not good
 
-				'@zfRootPath/libs/twbs/bootstrap/js/button.js',
-				'@zfRootPath/libs/twbs/bootstrap/js/dropdown.js',
+				'@zfRootPath/vendor/twbs/bootstrap/js/button.js',
+				'@zfRootPath/vendor/twbs/bootstrap/js/dropdown.js',
 
 				__DIR__ . '/../view/public/js/admin/action-panel.js',
 			],

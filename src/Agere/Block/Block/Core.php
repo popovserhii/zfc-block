@@ -43,7 +43,12 @@ class Core implements BlockPluginInterface {
 	}
 
 	public function renderAttrs($attrs) {
+		if (!is_array($attrs)) {
+			return false;
+		}
+
 		$attrsStr = '';
+		\Zend\Debug\Debug::dump($attrs);
 		foreach ($attrs as $name => $value) {
 				$attrsStr .= $this->renderAttr($name, $value);
 		}

@@ -69,7 +69,8 @@ class BlockFactory implements AbstractFactoryInterface {
 		if (isset($template)) {
 			$block->setTemplate($template);
 		}
-		$block->setRenderer($sm->get('viewManager')->getRenderer());
+		//$block->setRenderer($sm->get('ViewManager')->getRenderer());
+		$block->setRenderer($sm->get('ViewRenderer'));
 
 		//\Zend\Debug\Debug::dump($block); die(__METHOD__);
 

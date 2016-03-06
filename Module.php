@@ -22,7 +22,8 @@ class Module implements AutoloaderProviderInterface {
 			'BlockPluginManager',
 			'block_plugins',
 			'Agere\Block\Service\Plugin\BlockPluginProviderInterface',
-			'getProjectPluginConfig'
+			//'getProjectPluginConfig'
+			'getBlockPluginConfig'
 		);
 	}
 
