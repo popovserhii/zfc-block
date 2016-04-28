@@ -20,7 +20,7 @@
 				<?php endif ?>
 				<?php $concat .= $block->renderAttr($key, $attr); ?>
 			<?php endforeach ?>
-			<button <?= $concat ?>><?= $this->translate($attrs['title']) ?></button>
+			<a <?= $concat ?>><?= $this->translate($attrs['title']) ?></a>
 		<?php endforeach ?>
 	</div>
 <?php endif ?>
