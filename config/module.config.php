@@ -14,6 +14,7 @@ return [
 
 				'@zfRootPath/vendor/twbs/bootstrap/js/button.js',
 				'@zfRootPath/vendor/twbs/bootstrap/js/dropdown.js',
+				'@zfRootPath/vendor/twbs/bootstrap/js/modal.js',
 
 				__DIR__ . '/../view/public/js/admin/action-panel.js',
 			],
