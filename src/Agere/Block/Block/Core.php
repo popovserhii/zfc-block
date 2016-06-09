@@ -7,92 +7,124 @@
  * @author Popov Sergiy <popov@agere.com.ua>
  * @datetime: 13.04.15 16:09
  */
-
 namespace Agere\Block\Block;
 
 use Zend\Stdlib\Exception\LogicException;
 use Agere\Block\Service\Plugin\BlockPluginInterface;
 
-class Core implements BlockPluginInterface {
+class Core implements BlockPluginInterface
+{
+    protected $renderer;
 
-	protected $renderer;
+    protected $header = '';
 
-	protected $header = '';
+    protected $template = '';
 
-	protected $template = '';
+    protected $translatorTextDomain = null;
 
-	protected $translatorTextDomain = null;
+    protected $accessor;
 
-	protected $data = [];
+    protected $data = [];
 
+    public function setTemplate($template)
+    {
+        $this->template = $template;
 
-	public function setTemplate($template) {
-		$this->template = $template;
-	}
+        return $this;
+    }
 
-	public function getTemplate() {
-		return $this->template;
-	}
+    public function getTemplate()
+    {
+        return $this->template;
+    }
 
-	public function setTranslatorTextDomain($translator) {
-		$this->translatorTextDomain = $translator;
-	}
+    public function setTranslatorTextDomain($translator)
+    {
+        $this->translatorTextDomain = $translator;
 
-	public function getTranslatorTextDomain() {
-		return $this->translatorTextDomain;
-	}
+        return $this;
+    }
 
-	public function renderAttrs($attrs) {
-		if (!is_array($attrs)) {
-			return false;
-		}
+    public function getTranslatorTextDomain()
+    {
+        return $this->translatorTextDomain;
+    }
 
-		$attrsStr = '';
-		\Zend\Debug\Debug::dump($attrs);
-		foreach ($attrs as $name => $value) {
-				$attrsStr .= $this->renderAttr($name, $value);
-		}
+    /**
+     * Set object which check access to resource
+     *
+     * @param $accessor Object must implement only one method "hasAccess($resource)"
+     * @return $this
+     */
+    public function setAccessor($accessor)
+    {
+        $this->accessor = $accessor;
 
-		return $attrsStr;
-	}
+        return $this;
+    }
 
-	public function renderAttr($name, $value) {
-		$attr = '';
-		if ($value) {
-			$attr .= sprintf('%s="%s"', $name, $value);
-		} else {
-			$attr .= $name . '';
-		}
+    public function getAccessor()
+    {
+        return $this->accessor;
+    }
 
-		return $attr;
-	}
+    public function renderAttrs($attrs)
+    {
+        if (!is_array($attrs)) {
+            return false;
+        }
+        $attrsStr = '';
+        //\Zend\Debug\Debug::dump($attrs);
+        foreach ($attrs as $name => $value) {
+            $attrsStr .= $this->renderAttr($name, $value);
+        }
 
-	public function set($name, $value) {
-		$this->data[$name] = $value;
+        return $attrsStr;
+    }
 
-		return $this;
-	}
+    public function renderAttr($name, $value)
+    {
+        $attr = '';
+        if ($value) {
+            $attr .= sprintf('%s="%s"', $name, $value);
+        } else {
+            $attr .= $name . '';
+        }
 
-	public function setRenderer($renderer) {
-		$this->renderer = $renderer;
+        return $attr;
+    }
 
-		return $this;
-	}
+    public function set($name, $value)
+    {
+        $this->data[$name] = $value;
 
-	public function getRenderer() {
-		return $this->renderer;
-	}
+        return $this;
+    }
 
-	public function get($name) {
-		return isset($this->data[$name]) ? $this->data[$name] : null;
-	}
+    public function setRenderer($renderer)
+    {
+        $this->renderer = $renderer;
 
-	/**
-	 * @deprecated Instead use View Block Helper $this->block()->render($block)
-	 */
-	public function render() {
-		throw new LogicException(sprintf('Method %s is redundant for this class.
+        return $this;
+    }
+
+    public function getRenderer()
+    {
+        return $this->renderer;
+    }
+
+    public function get($name)
+    {
+        return isset($this->data[$name]) ? $this->data[$name] : null;
+    }
+
+    /**
+     * @deprecated Instead use View Block Helper $this->block()->render($block)
+     */
+    public function render()
+    {
+        throw new LogicException(sprintf('Method %s is redundant for this class.
 			Instead use View Block Helper: $this->block()->render($block)', __METHOD__));
-		//return $this->getRenderer()->render($this->template, ['block' => $this]);
-	}
+        //return $this->getRenderer()->render($this->template, ['block' => $this]);
+    }
 }

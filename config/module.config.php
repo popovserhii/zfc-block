@@ -54,7 +54,8 @@ return [
 				'template' => 'block/items'
 			],
 			'block/admin/toolbar' => [
-				'template' => 'block/toolbar'
+				'template' => 'block/toolbar',
+                'accessor' => 'ViewHelperManager/user'
 			],
 			/*'block/admin/actionPanel' => [
 				'template' => 'block/action-panel'

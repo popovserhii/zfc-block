@@ -12,53 +12,61 @@ namespace Agere\Block\Block\Admin;
 
 use Agere\Block\Block\Core;
 
-class Toolbar extends Core {
+class Toolbar extends Core
+{
+    use ButtonsTrait;
 
-	use ButtonsTrait;
+    /** @var ActionPanel[] */
+    protected $actionPanels;
 
-	/** @var ActionPanel[] */
-	protected $actionPanels;
+    /** @var  NavPanel */
+    protected $navPanel; // @todo
 
-	/** @var  NavPanel */
-	protected $navPanel; // @todo
+    protected $template = 'block/toolbar';
 
-	protected $template = 'block/toolbar';
+    public function addActionPanel(ActionPanel $actionPanel, $captureTo = '')
+    {
+        $this->captureTo($actionPanel, $captureTo);
 
-	public function addActionPanel(ActionPanel $actionPanel, $captureTo = '') {
-		$this->captureTo($actionPanel, $captureTo);
+        return $this;
+    }
 
-		return $this;
-	}
+    public function setActionPanels(array $actionPanels)
+    {
+        $this->actionPanels = $actionPanels;
 
-	public function setActionPanels(array $actionPanels) {
-		$this->actionPanels = $actionPanels;
+        return $this;
+    }
 
-		return $this;
-	}
+    public function getActionPanels()
+    {
+        return $this->actionPanels;
+    }
 
-	public function getActionPanels() {
-		return $this->actionPanels;
-	}
+    /**
+     * @param string $captureTo
+     * @return ActionPanel
+     * @toto Implement Lite way factory for new ActionPanel()
+     */
+    public function createActionPanel($captureTo = '')
+    {
+        $actionPanel = new ActionPanel();
+        $actionPanel->setRenderer($this->getRenderer());
+        $actionPanel->setAccessor($this->getAccessor());
+        $actionPanel->setTranslatorTextDomain($this->getTranslatorTextDomain());
 
-	/**
-	 * @param string $captureTo
-	 * @return ActionPanel
-	 * @toto Implement Lite way factory for new ActionPanel()
-	 */
-	public function createActionPanel($captureTo = '') {
-		$actionPanel = new ActionPanel();
-		!$captureTo || $actionPanel->setName($captureTo);
-		$this->captureTo($actionPanel, $captureTo);
+        !$captureTo || $actionPanel->setName($captureTo);
+        $this->captureTo($actionPanel, $captureTo);
 
-		return $actionPanel;
-	}
+        return $actionPanel;
+    }
 
-	protected function captureTo($actionPanel, $captureTo) {
-		if ($captureTo) {
-			$this->actionPanels[$captureTo] = $actionPanel;
-		} else {
-			$this->actionPanels[] = $actionPanel;
-		}
-	}
-
+    protected function captureTo($actionPanel, $captureTo)
+    {
+        if ($captureTo) {
+            $this->actionPanels[$captureTo] = $actionPanel;
+        } else {
+            $this->actionPanels[] = $actionPanel;
+        }
+    }
 }

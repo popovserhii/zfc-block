@@ -48,27 +48,49 @@ class BlockFactory implements AbstractFactoryInterface {
 	}
 
 	public function createServiceWithName(ServiceLocatorInterface $bpm, $name, $requestedName) {
-		/** @var BlockPluginManager $bpm */
-		/** @var Core $block */
-		$sm = $bpm->getServiceLocator();
-		$config = $sm->get('Config');
-		$routeMatch = $sm->get('Application')->getMvcEvent()->getRouteMatch();
 
-		$blockName = $this->blockNames[$requestedName];
-		$block = new $blockName();
+        /** @var BlockPluginManager $bpm */
+        $sm = $bpm->getServiceLocator();
+        $config = $sm->get('Config');
+        $routeMatch = $sm->get('Application')->getMvcEvent()->getRouteMatch();
 
-		$configControllerKey = $routeMatch->getParam('controller') . '/' . $routeMatch->getParam('action');
-		if (isset($config['block_plugin_config'][$configControllerKey][$requestedName]['template'])) {
-			$template = $config['block_plugin_config'][$configControllerKey][$requestedName]['template'];
-		} elseif (!trim($block->getTemplate()) && isset($config['block_plugin_config']['default'][$requestedName]['template'])) {
-			$template = $config['block_plugin_config']['default'][$requestedName]['template'];
-		} /*elseif (!trim($template = $block->getTemplate())) {
+
+        $blockName = $this->blockNames[$requestedName];
+        /** @var Core $block */
+        $block = new $blockName();
+
+        $getConfig = function($key) use ($config, $routeMatch, $requestedName, $block) {
+            $blockConfig = $config['block_plugin_config'];
+            $configControllerKey = $routeMatch->getParam('controller') . '/' . $routeMatch->getParam('action');
+            $value = false;
+            if (isset($blockConfig[$configControllerKey][$requestedName][$key])) {
+                $value = $blockConfig[$configControllerKey][$requestedName][$key];
+            } elseif (isset($blockConfig['default'][$requestedName][$key])) {
+                $value = $blockConfig['default'][$requestedName][$key];
+            }
+
+            return $value;
+        };
+
+
+        //$blockConfig = $config['block_plugin_config'];
+		//$configControllerKey = $routeMatch->getParam('controller') . '/' . $routeMatch->getParam('action');
+		/*if (isset($blockConfig[$configControllerKey][$requestedName]['template'])) {
+			$templateKey = $blockConfig[$configControllerKey][$requestedName]['template'];
+		} elseif (!trim($block->getTemplate()) && isset($blockConfig['default'][$requestedName]['template'])) {
+			$templateKey = $blockConfig['default'][$requestedName]['template'];
+		} *//*elseif (!trim($template = $block->getTemplate())) {
 			throw new Exception\InvalidArgumentException(sprintf('Template not found for block %s ("%s")', $blockName, $requestedName));
 		}*/
-
-		if (isset($template)) {
-			$block->setTemplate($template);
+		if (!trim($block->getTemplate()) && ($templateKey = $getConfig('template'))) {
+			$block->setTemplate($templateKey);
 		}
+
+		if (($accessorKey = $getConfig('accessor'))) {
+            list($smKey, $helperKey) = explode('/', $accessorKey);
+            $helperKey ? $block->setAccessor($sm->get($smKey)->get($helperKey)) : $block->setAccessor($sm->get($smKey));
+        }
+
 		//$block->setRenderer($sm->get('ViewManager')->getRenderer());
 		$block->setRenderer($sm->get('ViewRenderer'));
 
@@ -76,5 +98,9 @@ class BlockFactory implements AbstractFactoryInterface {
 
 		return $block;
 	}
+
+    public function getConfig() {
+
+    }
 
 }

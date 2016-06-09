@@ -11,7 +11,7 @@
 namespace Agere\Block\Block\Admin;
 
 use Zend\Stdlib\Exception;
-use Agere\Base\Plugin\ArrayUtilss;
+use Agere\Base\Plugin\ArrayUtils;
 
 class Columns {
 

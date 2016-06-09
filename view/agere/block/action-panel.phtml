@@ -6,6 +6,7 @@
  * @package Agere_Block
  * @author Popov Sergiy <popov@agere.com.ua>
  * @datetime: 10.05.15 23:45
+ * @var Agere\Block\Block\Admin\ActionPanel $block
  */
 ?>
 <div class="btn-group" <?= $block->renderAttrs($block->get('attrs')) ?>>
@@ -22,7 +23,9 @@
 				<?php $actionName = key($action) ?>
 				<?php $routeName = key($action[$actionName]) ?>
 				<?php $routeParams = current($action[$actionName]) ?>
-				<li data-group="<?= $group ?>"><a href="<?= $this->url($routeName, $routeParams); ?>"><?= $actionName ?></a></li>
+				<li data-group="<?= $group ?>">
+                    <a href="<?= $this->url($routeName, $routeParams); ?>"><?= $actionName ?></a>
+                </li>
 			<?php endforeach ?>
 
 			<?php if ($count !== ($key + 1)) : ?>

@@ -1,7 +1,6 @@
 <?php
 /**
  * Action panel for admin block
- *
  * Like Twitter Bootstrap toggle drop-down element
  *
  * @category Agere
@@ -9,102 +8,113 @@
  * @author Popov Sergiy <popov@agere.com.ua>
  * @datetime: 25.04.15 23:31
  */
-
 namespace Agere\Block\Block\Admin;
 
 use Zend\Stdlib\Exception;
-
+use Zend\View\Helper\Url;
 use Agere\Block\Block\Core;
 use Agere\ArrayEx\ArrayEx;
 
-class ActionPanel extends Core {
+class ActionPanel extends Core
+{
+    const OPT_ENABLE_CHECK = true;
 
-	const OPT_ENABLE_CHECK = true;
+    const OPT_DISABLE_CHECK = false;
 
-	const OPT_DISABLE_CHECK = false;
+    protected $template = 'block/action-panel';
 
-	//protected $name = 'Action';
+    /** @var array */
+    protected $actions = [];
 
-	protected $template = 'block/action-panel';
+    public function setName($name)
+    {
+        return $this->set('name', $name ?: 'Action');
+    }
 
-	/**
-	 * @var array
-	 */
-	protected $actions = [];
+    public function getName()
+    {
+        return $this->get('name');
+    }
 
+    /**
+     * @param $name
+     * @param $url
+     * @param array $options
+     * @param bool $checkOptions
+     * @return $this
+     */
+    public function setAction($name, $url, $options = [], $checkOptions = self::OPT_ENABLE_CHECK)
+    {
+        // check access to resource
+        if (($accessor = $this->getAccessor())) {
+            /** @var Url $urlPlugin */
+            $urlPlugin = $this->getRenderer()->plugin('url');
+            $resource = $urlPlugin(key($url), current($url));
+            if (!$accessor->hasAccess($resource)) {
+                return $this;
+            }
+        }
+        if ($checkOptions) {
+            $options = $this->prepareOptions($options);
+        }
+        $this->actions[$options['group']][$options['position']][][$name] = $url;
 
-	public function setName($name) {
-		return $this->set('name', $name ?: 'Action');
-	}
+        return $this;
+    }
 
-	public function getName() {
-		return $this->get('name');
-	}
+    /**
+     * @param string $name
+     * @param string $url
+     * @param array $options
+     * @return $this
+     * @throws Exception\InvalidArgumentException
+     */
+    public function addAction($name, $url, $options = [])
+    {
+        $options = $this->prepareOptions($options);
+        $position = isset($this->actions[$options['group']][$options['position']])
+            ? $this->actions[$options['group']][$options['position']]
+            : false;
 
-	/**
-	 * @param $name
-	 * @param $url
-	 * @param array $options
-	 * @param bool $checkOptions
-	 * @return $this
-	 */
-	public function setAction($name, $url, $options = [], $checkOptions = self::OPT_ENABLE_CHECK) {
-		if ($checkOptions) {
-			$options = $this->prepareOptions($options);
-		}
-		$this->actions[$options['group']][$options['position']][][$name] = $url;
+        if ($position && (new ArrayEx($position))->in($name)) {
+            throw new Exception\InvalidArgumentException(
+                sprintf('Action with name %s already exist if you want overwrite this use %s instead of',
+                    $name,
+                    __CLASS__ . '::setAction()'
+                ));
+        }
 
-		return $this;
-	}
+        return $this->setAction($name, $url, $options, self::OPT_DISABLE_CHECK);
+    }
 
-	/**
-	 * @param string $name
-	 * @param string $url
-	 * @param array $options
-	 * @return $this
-	 * @throws Exception\InvalidArgumentException
-	 */
-	public function addAction($name, $url, $options = []) {
-		$options = $this->prepareOptions($options);
-		$position = isset($this->actions[$options['group']][$options['position']])
-			? $this->actions[$options['group']][$options['position']]
-			: false;
+    public function groups()
+    {
+        return array_keys($this->actions);
+    }
 
-		if ($position && (new ArrayEx($position))->in($name)) {
-			throw new Exception\InvalidArgumentException(sprintf('Action with name %s already exist if you want overwrite this use %s instead of',
-				$name,
-				__CLASS__ . '::setAction()'
-			));
-		}
+    public function actions($group = null)
+    {
+        if ((is_null($group) === false) && isset($this->actions[$group])) {
+            $positions = $this->actions[$group];
+            sort($positions);
+            $actions = [];
+            foreach ($positions as $position => $action) {
+                $actions = array_merge($actions, $action);
+            }
 
-		return $this->setAction($name, $url, $options, self::OPT_DISABLE_CHECK);
-	}
+            return $actions;
+        } elseif (!is_null($group)) {
+            return false;
+        }
 
-	public function groups() {
-		return array_keys($this->actions);
-	}
+        return $this->actions;
+    }
 
-	public function actions($group = null) {
-		if ((is_null($group) === false) && isset($this->actions[$group])) {
-			$positions = $this->actions[$group];
-			sort($positions);
-			$actions = [];
-			foreach ($positions as $position => $action) {
-				$actions = array_merge($actions, $action);
-			}
-			return $actions;
-		} elseif (!is_null($group)) {
-			return false;
-		}
+    protected function prepareOptions($options)
+    {
+        $options['group'] = isset($options['group']) ? $options['group'] : 'default';
+        $options['position'] = isset($options['position']) ? $options['position'] : 100;
 
-		return $this->actions;
-	}
-
-	protected function prepareOptions($options) {
-		$options['group'] = isset($options['group']) ? $options['group'] : 'default';
-		$options['position'] =  isset($options['position']) ? $options['position'] : 100;
-
-		return $options;
-	}
-
+        return $options;
+    }
 }
