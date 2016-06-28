@@ -45,7 +45,7 @@ trait ButtonsTrait
     public function button($name, array $attributes = [])
     {
         // check access to resource
-        if ($this->accessExists() && !$this->hasAccess($attributes['href'])) {
+        if ($this->accessExists() && isset($attributes['href']) && !$this->hasAccess($attributes['href'])) {
             return $this;
         }
 
