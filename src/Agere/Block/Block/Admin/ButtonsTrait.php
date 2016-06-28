@@ -19,19 +19,6 @@ trait ButtonsTrait
 
     protected $buttonsTemplate = 'block/buttons';
 
-    public function accessExists()
-    {
-        static $exists = null;
-
-        if (null !== $exists) {
-            return $exists;
-        }
-
-        $exists = method_exists($this, 'hasAccess');
-
-        return $exists;
-    }
-
     public function buttons()
     {
         return $this->buttons;
@@ -71,6 +58,26 @@ trait ButtonsTrait
         }
 
         return $this->button($name, $attributes);
+    }
+
+    public function removeButton($name)
+    {
+        unset($this->buttons[$name]);
+
+        return $this;
+    }
+
+    public function accessExists()
+    {
+        static $exists = null;
+
+        if (null !== $exists) {
+            return $exists;
+        }
+
+        $exists = method_exists($this, 'hasAccess');
+
+        return $exists;
     }
 
     public function resetButtonsWrapperClass()
