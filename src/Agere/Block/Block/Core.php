@@ -9,6 +9,7 @@
  */
 namespace Agere\Block\Block;
 
+use Zend\View\Helper\Url;
 use Zend\Stdlib\Exception\LogicException;
 use Agere\Block\Service\Plugin\BlockPluginInterface;
 
@@ -66,6 +67,21 @@ class Core implements BlockPluginInterface
     public function getAccessor()
     {
         return $this->accessor;
+    }
+
+    public function hasAccess($params)
+    {
+        if (($accessor = $this->getAccessor())) {
+            /** @var Url $urlPlugin */
+            $urlPlugin = $this->getRenderer()->plugin('url');
+            $route = key($params);
+            $params = current($params);
+            $resource = $urlPlugin($route, $params);
+            if (!$accessor->hasAccess($resource)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public function renderAttrs($attrs)

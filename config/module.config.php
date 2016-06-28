@@ -66,11 +66,11 @@ return [
 
 	'view_manager' => [
 		'template_map' => [
-			'block/items' => __DIR__ . '/../view/agere/block/items.phtml',
-			'block/action-panel' => __DIR__ . '/../view/agere/block/action-panel.phtml',
-			'block/toolbar' => __DIR__ . '/../view/agere/block/toolbar.phtml',
-			'block/buttons' => __DIR__ . '/../view/agere/block/buttons.phtml',
-		],
+            'block/items' => __DIR__ . '/../view/agere/block/items.phtml',
+            'block/toolbar' => __DIR__ . '/../view/agere/block/toolbar.phtml',
+            'block/buttons' => __DIR__ . '/../view/agere/block/buttons.phtml',
+            'block/action-panel' => __DIR__ . '/../view/agere/block/action-panel.phtml',
+        ],
 		'template_path_stack' => [
 			__NAMESPACE__ => __DIR__ . '/../view',
 		],

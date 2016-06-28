@@ -13,38 +13,45 @@ use Zend\Mvc\ModuleRouteListener;
 use Zend\ModuleManager\ModuleManager;
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 
-class Module implements AutoloaderProviderInterface {
+class Module implements AutoloaderProviderInterface
+{
+    public function init(ModuleManager $moduleManager)
+    {
+        $sm = $moduleManager->getEvent()->getParam('ServiceManager');
+        $serviceListener = $sm->get('ServiceListener');
+        $serviceListener->addServiceManager(
+            'BlockPluginManager',
+            'block_plugins',
+            'Agere\Block\Service\Plugin\BlockPluginProviderInterface',
+            //'getProjectPluginConfig'
+            'getBlockPluginConfig'
+        );
+    }
 
-	public function init(ModuleManager $moduleManager) {
-		$sm = $moduleManager->getEvent()->getParam('ServiceManager');
-		$serviceListener = $sm->get('ServiceListener');
-		$serviceListener->addServiceManager(
-			'BlockPluginManager',
-			'block_plugins',
-			'Agere\Block\Service\Plugin\BlockPluginProviderInterface',
-			//'getProjectPluginConfig'
-			'getBlockPluginConfig'
-		);
-	}
+    public function onBootstrap($e)
+    {
+        $e->getApplication()->getServiceManager()->get('translator');
+        $eventManager = $e->getApplication()->getEventManager();
+        $moduleRouteListener = new ModuleRouteListener();
+        $moduleRouteListener->attach($eventManager);
+    }
 
-	public function onBootstrap($e) {
-		$e->getApplication()->getServiceManager()->get('translator');
-		$eventManager = $e->getApplication()->getEventManager();
-		$moduleRouteListener = new ModuleRouteListener();
-		$moduleRouteListener->attach($eventManager);
-	}
+    public function getConfig()
+    {
+        return include __DIR__ . '/config/module.config.php';
+    }
 
-	public function getConfig() {
-		return include __DIR__ . '/config/module.config.php';
-	}
-
-	public function getAutoloaderConfig() {
-		return array(
-			'Zend\Loader\StandardAutoloader' => array(
-				'namespaces' => array(
-					__NAMESPACE__ => str_replace('\\', '/', __DIR__ . '/src/' . __NAMESPACE__),
-				),
-			),
-		);
-	}
+    public function getAutoloaderConfig()
+    {
+        return [
+            /*'Zend\Loader\ClassMapAutoloader' => [
+                __DIR__ . '/autoload_classmap.php',
+            ],*/
+            'Zend\Loader\StandardAutoloader' => [
+                'namespaces' => [
+                    __NAMESPACE__ => str_replace('\\', '/', __DIR__ . '/src/' . __NAMESPACE__),
+                ],
+            ],
+        ];
+    }
 }

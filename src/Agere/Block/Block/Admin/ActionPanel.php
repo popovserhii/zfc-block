@@ -46,14 +46,10 @@ class ActionPanel extends Core
     public function setAction($name, $url, $options = [], $checkOptions = self::OPT_ENABLE_CHECK)
     {
         // check access to resource
-        if (($accessor = $this->getAccessor())) {
-            /** @var Url $urlPlugin */
-            $urlPlugin = $this->getRenderer()->plugin('url');
-            $resource = $urlPlugin(key($url), current($url));
-            if (!$accessor->hasAccess($resource)) {
-                return $this;
-            }
+        if (!$this->hasAccess($url)) {
+            return $this;
         }
+
         if ($checkOptions) {
             $options = $this->prepareOptions($options);
         }

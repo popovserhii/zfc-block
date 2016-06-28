@@ -7,69 +7,94 @@
  * @author Popov Sergiy <popov@agere.com.ua>
  * @datetime: 10.05.15 12:39
  */
-
 namespace Agere\Block\Block\Admin;
 
 use Zend\Stdlib\Exception;
 
-trait ButtonsTrait {
+trait ButtonsTrait
+{
+    protected $buttons = [];
 
-	protected $buttons = [];
+    protected $buttonsWrapperClass = '';
 
-	protected $buttonsWrapperClass = '';
+    protected $buttonsTemplate = 'block/buttons';
 
-	protected $buttonsTemplate = 'block/buttons';
+    public function accessExists()
+    {
+        static $exists = null;
 
-	public function buttons() {
-		return $this->buttons;
-	}
+        if (null !== $exists) {
+            return $exists;
+        }
 
-	/**
-	 * @param $name
-	 * @param array $attributes
-	 * @return $this
-	 */
-	public function button($name, array $attributes = []) {
-		$this->buttons[$name] = $attributes;
+        $exists = method_exists($this, 'hasAccess');
 
-		return $this;
-	}
+        return $exists;
+    }
 
-	/**
-	 * @param $name
-	 * @param array $attributes
-	 * @return $this
-	 * @throws Exception\InvalidArgumentException
-	 */
-	public function addButton($name, $attributes = []) {
-		if (isset($this->buttons[$name])) {
-			throw new Exception\InvalidArgumentException(sprintf(
+    public function buttons()
+    {
+        return $this->buttons;
+    }
+
+    /**
+     * @param $name
+     * @param array $attributes
+     * @return $this
+     */
+    public function button($name, array $attributes = [])
+    {
+        // check access to resource
+        if ($this->accessExists() && !$this->hasAccess($attributes['href'])) {
+            return $this;
+        }
+
+        $this->buttons[$name] = $attributes;
+
+        return $this;
+    }
+
+    /**
+     * @param $name
+     * @param array $attributes
+     * @return $this
+     * @throws Exception\InvalidArgumentException
+     */
+    public function addButton($name, $attributes = [])
+    {
+        if (isset($this->buttons[$name])) {
+            throw new Exception\InvalidArgumentException(sprintf(
                 'Button with name %s already exist if you want overwrite this use %s instead of',
-				$name,
-				__CLASS__ . '::buttons()'
-			));
-		}
+                $name,
+                __CLASS__ . '::buttons()'
+            ));
+        }
 
-		return $this->button($name, $attributes);
-	}
+        return $this->button($name, $attributes);
+    }
 
-	public function resetButtonsWrapperClass() {
-		$this->buttonsWrapperClass = '';
-	}
-	public function addButtonsWrapperClass($class) {
-		$this->buttonsWrapperClass .= $class;
-	}
+    public function resetButtonsWrapperClass()
+    {
+        $this->buttonsWrapperClass = '';
+    }
 
-	public function getButtonsWrapperClass() {
-		return $this->buttonsWrapperClass;
-	}
+    public function addButtonsWrapperClass($class)
+    {
+        $this->buttonsWrapperClass .= $class;
+    }
 
-	public function setButtonsTemplate($template) {
-		$this->buttonsTemplate = $template;
-	}
+    public function getButtonsWrapperClass()
+    {
+        return $this->buttonsWrapperClass;
+    }
 
-	public function getButtonsTemplate() {
-		return $this->buttonsTemplate;
-	}
+    public function setButtonsTemplate($template)
+    {
+        $this->buttonsTemplate = $template;
+    }
 
+    public function getButtonsTemplate()
+    {
+        return $this->buttonsTemplate;
+    }
 }
