@@ -1,0 +1,73 @@
+<?php
+/**
+ * Bootstrap 3 template for items list
+ *
+ * @category Agere
+ * @package Agere_Block
+ * @author Popov Sergiy <popov@agere.com.ua>
+ * @datetime: 27.04.15 20:17
+ */
+
+/**
+ * @var Agere\Block\Block\Admin\Items $block
+ * @var Zend\Paginator\Paginator $paginator
+ */
+?>
+
+<?php $this->plugin('translate')->setTranslatorTextDomain($block->getTranslatorTextDomain() ? : $this->layout()->modulenamespace); ?>
+
+<div class="row">
+	<div class="col-xs-12">
+		<div class="box">
+			<div class="box-header">
+				<?php $headPanel = $block->getHeaderPanel() ?>
+				<h3 class="box-title"><?= $this->translate($headPanel->title()) ?></h3>
+				<?= $this->partial('block/buttons', ['block' => $headPanel]) ?>
+			</div><!-- /.box-header -->
+
+			<div class="box-body">
+				<div class="dataTables_wrapper form-inline" role="grid">
+
+					<?php $paginator = $block->columns()->items() ?>
+					<?php $pagination = ''; ?>
+					<?php ob_start(); ?>
+						<?php //if ($paginator->count() > 1) : ?>
+							<?php echo $this->paginationControl($paginator,
+								'Sliding',
+								'pagination/control',
+								['route' => 'default/page', 'params' => [
+									'controller' => $this->layout()->route->getParam('controller'),
+									'action' => $this->layout()->route->getParam('action'),
+									'lang' => $this->layout()->route->getParam('lang'),
+									'page' => $this->layout()->route->getParam('page'),
+								]]
+							); ?>
+						<?php //endif ?>
+					<?= $pagination .= ob_get_clean(); ?>
+
+					<table class="table table-bordered table-hover dataTable">
+						<thead>
+							<tr>
+								<?php $columns = $block->columns()->order() ?>
+								<?php foreach ($columns as $column) : ?>
+									<th><?= $block->columns()->get($column)->renderHead($this->block()->getView()) ?></th>
+								<?php endforeach; ?>
+							</tr>
+						</thead>
+						<tbody>
+						<?php foreach ($paginator as $key => $item) : ?>
+							<tr>
+								<?php foreach ($columns as $column) : ?>
+									<td><?= $block->columns()->get($column)->render($item) ?></td>
+								<?php endforeach ?>
+							</tr>
+						<?php endforeach ?>
+						</tbody>
+					</table>
+					<?php echo $pagination ?>
+				</div>
+			</div><!-- /.box-body -->
+
+		</div>
+	</div>
+</div>

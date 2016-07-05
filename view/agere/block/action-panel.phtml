@@ -1,0 +1,36 @@
+<?php
+/**
+ * Action panel template
+ *
+ * @category Agere
+ * @package Agere_Block
+ * @author Popov Sergiy <popov@agere.com.ua>
+ * @datetime: 10.05.15 23:45
+ * @var Agere\Block\Block\Admin\ActionPanel $block
+ */
+?>
+<div class="btn-group" <?= $block->renderAttrs($block->get('attrs')) ?>>
+	<button type="button" class="btn btn-primary btn-xs"><?= $this->translate($block->getName()) ?></button>
+	<button type="button" class="btn btn-primary dropdown-toggle btn-xs" data-toggle="dropdown">
+		<span class="caret"></span>
+		<span class="sr-only"><?= $this->translate('Toggle Dropdown') ?></span>
+	</button>
+	<ul class="dropdown-menu" role="menu">
+		<?php $groups = $block->groups() ?>
+		<?php $count = count($groups) ?>
+		<?php foreach ($groups as $key => $group) : ?>
+			<?php foreach ($block->actions($group) as $action) : ?>
+				<?php $actionName = key($action) ?>
+				<?php $routeName = key($action[$actionName]) ?>
+				<?php $routeParams = current($action[$actionName]) ?>
+				<li data-group="<?= $group ?>">
+                    <a href="<?= $this->url($routeName, $routeParams); ?>"><?= $actionName ?></a>
+                </li>
+			<?php endforeach ?>
+
+			<?php if ($count !== ($key + 1)) : ?>
+				<li class="divider"></li>
+			<?php endif ?>
+		<?php endforeach ?>
+	</ul>
+</div>
