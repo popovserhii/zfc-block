@@ -3,6 +3,9 @@ namespace Agere\Block;
 
 return [
 
+    'assetic_configuration' => require_once('assets.global.php'),
+
+    // old module https://github.com/neilime/zf2-assets-bundle
 	'assets_bundle' => [
 		'production' => false,
 		'assets' => [
