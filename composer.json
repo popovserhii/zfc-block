@@ -1,17 +1,15 @@
 {
-    "name": "popovsergiy/zfc-block",
+    "name": "agerecompany/zfc-block",
     "description": "Create separatly custom template bock with html, css, js etc.",
     "homepage": "http://agere.com.ua",
     "license": "MIT",
-    "minimum-stability": "alpha",
+    "minimum-stability": "stable",
     "require": {
-        "php": ">=5.4",
-        "neilime/zf2-assets-bundle": "dev-master"
+        "php": ">=5.4"
     },
     "autoload": {
-        "psr-0": {
-            "Agere\\Block\\": "src/"
-        },
-        "classmap": ["Module.php"]
+    "psr-4": {
+      "Agere\\Block\\": "src/"
     }
+  }
 }
