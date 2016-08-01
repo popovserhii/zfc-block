@@ -15,48 +15,44 @@ use Zend\ServiceManager\ServiceManager;
 use Zend\View\Helper\AbstractHelper;
 use Zend\View\HelperPluginManager;
 
-class Block extends AbstractHelper implements ServiceLocatorAwareInterface {
+class Block extends AbstractHelper implements ServiceLocatorAwareInterface
+{
+    use ServiceLocatorAwareTrait;
 
-	use ServiceLocatorAwareTrait;
+    public function render($block)
+    {
+        return $this->getView()->partial($block->getTemplate(), ['block' => $block]);
+    }
 
-	/**
-	 * Last block object has called through __invoke
-	 * @var
-	 */
-	protected $block;
+    public function getTemplate()
+    {
+    }
 
-	public function render($block = null) {
-		if (!$block) {
-			$block = $this->getCurrent();
-		}
+    public function get($name)
+    {
+        /** @var ServiceManager $bpm */
+        $bpm = $this->serviceLocator->getServiceLocator()->get('BlockPluginManager');
+        //$sm = $this->getServiceLocator();
+        //\Zend\Debug\Debug::dump(get_class($sm)); die(__METHOD__);
+        return $bpm->get($name);
+    }
 
-		return $this->getView()->partial($block->getTemplate(), ['block' => $block]);
-	}
+    public function __invoke()
+    {
+        $args = func_get_args();
+        if (!$args) {
+            return $this;
+        }
 
-	public function getTemplate() {
+        $name = $args[0];
+        $variables = isset($args[1]) ? $args[1] : [];
 
-	}
+        $block = $this->get($name);
 
-	public function getCurrent() {
-		return $this->block;
-	}
+        foreach ($variables as $key => $value) {
+            $block->set($key, $value);
+        }
 
-	public function get($name) {
-		/** @var ServiceManager $bpm */
-		$bpm = $this->serviceLocator->getServiceLocator()->get('BlockPluginManager');
-		//$sm = $this->getServiceLocator();
-		//\Zend\Debug\Debug::dump(get_class($sm)); die(__METHOD__);
-
-		return $bpm->get($name);
-	}
-
-    public function __invoke() {
-		$args = func_get_args();
-		if (!$args) {
-			return $this;
-		}
-		$this->block = $this->get($args[0]);
-
-		return $this->block;
+        return $block;
     }
 }

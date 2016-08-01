@@ -3,17 +3,14 @@ namespace Agere\Block;
 
 return [
 
-    'assetic_configuration' => require_once('assets.global.php'),
+    'assetic_configuration' => require_once 'assets.global.php',
 
     // old module https://github.com/neilime/zf2-assets-bundle
-	'assets_bundle' => [
+	/*'assets_bundle' => [
 		'production' => false,
 		'assets' => [
-			'css' => ['media/css/theme.css', /*__DIR__ . '/../view/public/css'*/],
-			//'less' => ['media/less/theme.less'], // @todo wait fix bug @link https://github.com/neilime/zf2-assets-bundle/issues/37
-			//'js' => ['js'],
+			'css' => ['media/css/theme.css'],
 			'js' => [
-				//__DIR__ . '/../view/public/js/admin/general.js', //@todo Add files per template, all by once is not good
 
 				'@zfRootPath/vendor/twbs/bootstrap/js/button.js',
 				'@zfRootPath/vendor/twbs/bootstrap/js/dropdown.js',
@@ -21,13 +18,12 @@ return [
 
 				__DIR__ . '/../view/public/js/admin/action-panel.js',
 			],
-			//'media' => ['img', 'fonts']
 		]
-	],
+	],*/
 
 	'view_helpers' => [
 		'invokables' => [
-			'block' => 'Agere\Block\View\Helper\Block',
+			'block' => View\Helper\Block::class,
 		],
 		'factories' => [
 			//'block' => ''
@@ -36,36 +32,40 @@ return [
 
 	'service_manager' => [
 		'factories' => [
-			'BlockPluginManager' => 'Agere\Block\Service\Plugin\BlockPluginFactory',
+			'BlockPluginManager' => Service\Plugin\BlockPluginFactory::class,
 		],
 	],
 
 	'block_plugins' => [
+		'aliases' => [
+            'AdminItems' => Block\Admin\Items::class,
+            'AdminToolbar' => Block\Admin\Toolbar::class,
+        ],
 		//'invokables' => [],
+        'factories' => [
+            Block\Admin\Items::class => Service\Factory\BlockFactory::class,
+            Block\Admin\Toolbar::class => Service\Factory\BlockFactory::class,
+        ],
 		'abstract_factories' => [
-			'Agere\Block\Service\Factory\BlockFactory',
+			Service\Factory\BlockAbstractFactory::class,
 		],
 		'shared' => [
-			'block/admin/toolbar' => false,
+            Block\Admin\Items::class => false,
+            Block\Admin\Toolbar::class => false,
 		]
 	],
 
-
 	'block_plugin_config' => [
 		'default' => [
-			'block/admin/items' => [
+            Block\Admin\Items::class => [
 				'template' => 'block/items'
 			],
-			'block/admin/toolbar' => [
+            Block\Admin\Toolbar::class => [
 				'template' => 'block/toolbar',
-                'accessor' => 'ViewHelperManager/user'
+                'accessor' => 'ViewHelperManager::user'
 			],
-			/*'block/admin/actionPanel' => [
-				'template' => 'block/action-panel'
-			],*/
 		],
 	],
-
 
 	'view_manager' => [
 		'template_map' => [
