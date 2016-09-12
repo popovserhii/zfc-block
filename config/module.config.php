@@ -5,22 +5,6 @@ return [
 
     'assetic_configuration' => require_once 'assets.global.php',
 
-    // old module https://github.com/neilime/zf2-assets-bundle
-	/*'assets_bundle' => [
-		'production' => false,
-		'assets' => [
-			'css' => ['media/css/theme.css'],
-			'js' => [
-
-				'@zfRootPath/vendor/twbs/bootstrap/js/button.js',
-				'@zfRootPath/vendor/twbs/bootstrap/js/dropdown.js',
-				'@zfRootPath/vendor/twbs/bootstrap/js/modal.js',
-
-				__DIR__ . '/../view/public/js/admin/action-panel.js',
-			],
-		]
-	],*/
-
 	'view_helpers' => [
 		'invokables' => [
 			'block' => View\Helper\Block::class,

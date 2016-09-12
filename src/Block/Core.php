@@ -110,13 +110,6 @@ class Core implements BlockPluginInterface
         return $attr;
     }
 
-    public function set($name, $value)
-    {
-        $this->data[$name] = $value;
-
-        return $this;
-    }
-
     public function setRenderer($renderer)
     {
         $this->renderer = $renderer;
@@ -127,6 +120,13 @@ class Core implements BlockPluginInterface
     public function getRenderer()
     {
         return $this->renderer;
+    }
+
+    public function set($name, $value)
+    {
+        $this->data[$name] = $value;
+
+        return $this;
     }
 
     public function get($name)
