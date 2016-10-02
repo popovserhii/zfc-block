@@ -19,9 +19,14 @@ trait ButtonsTrait
 
     protected $buttonsTemplate = 'block/buttons';
 
-    public function buttons()
+    public function getButtons()
     {
         return $this->buttons;
+    }
+
+    public function getButton($name)
+    {
+        return $this->hasButton($name) ? $this->buttons[$name] : false;
     }
 
     /**
@@ -29,7 +34,7 @@ trait ButtonsTrait
      * @param array $attributes
      * @return $this
      */
-    public function button($name, array $attributes = [])
+    public function setButton($name, array $attributes = [])
     {
         // check access to resource
         if ($this->accessExists() && isset($attributes['href']) && !$this->hasAccess($attributes['href'])) {
@@ -57,7 +62,7 @@ trait ButtonsTrait
             ));
         }
 
-        return $this->button($name, $attributes);
+        return $this->setButton($name, $attributes);
     }
 
     public function removeButton($name)
@@ -65,6 +70,11 @@ trait ButtonsTrait
         unset($this->buttons[$name]);
 
         return $this;
+    }
+
+    public function hasButton($name)
+    {
+        return isset($this->buttons[$name]);
     }
 
     public function accessExists()

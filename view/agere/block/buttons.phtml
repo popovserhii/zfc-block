@@ -9,7 +9,7 @@
  */
 ?>
 <?php /** @var Agere\Block\Block\Core $block */ ?>
-<?php if (isset($block) && ($buttons = $block->buttons())) : ?>
+<?php if (isset($block) && ($buttons = $block->getButtons())) : ?>
 	<div class="<?= $block->getButtonsWrapperClass() ?>">
 		<?php foreach ($buttons as $name => $attrs) : ?>
 			<?php $url = ''; ?>

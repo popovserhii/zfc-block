@@ -129,6 +129,13 @@ class Core implements BlockPluginInterface
         return $this;
     }
 
+    public function concat($name, $value)
+    {
+        $this->data[$name] .= $value;
+
+        return $this;
+    }
+
     public function get($name)
     {
         return isset($this->data[$name]) ? $this->data[$name] : null;
