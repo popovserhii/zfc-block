@@ -27,6 +27,8 @@ class Core implements BlockPluginInterface
 
     protected $data = [];
 
+    protected $variablesKey = 'variables';
+
     public function setTemplate($template)
     {
         $this->template = $template;
@@ -142,12 +144,50 @@ class Core implements BlockPluginInterface
     }
 
     /**
-     * @deprecated Instead use View Block Helper $this->block()->render($block)
+     * Set template variables
+     *
+     * @param array $variables
+     * @return $this
      */
-    public function render()
+    public function setVariables(array $variables)
     {
-        throw new LogicException(sprintf('Method %s is redundant for this class.
-			Instead use View Block Helper: $this->block()->render($block)', __METHOD__));
-        //return $this->getRenderer()->render($this->template, ['block' => $this]);
+        $this->data[$this->variablesKey] = $variables;
+
+        return $this;
+    }
+
+    /**
+     * Get template variables
+     *
+     * @return array
+     */
+    public function getVariables()
+    {
+        return $this->data[$this->variablesKey];
+    }
+
+    /**
+     * Set template variable
+     *
+     * @param $name
+     * @param $value
+     * @return $this
+     */
+    public function setVariable($name, $value)
+    {
+        $this->data[$this->variablesKey][$name] = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get template variable
+     *
+     * @param $name
+     * @return mixed
+     */
+    public function getVariable($name)
+    {
+        return isset($this->data[$this->variablesKey][$name]) ? $this->data[$this->variablesKey][$name] : null;
     }
 }
