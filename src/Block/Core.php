@@ -79,7 +79,9 @@ class Core implements BlockPluginInterface
             $route = key($params);
             $params = current($params);
             $resource = $urlPlugin($route, $params);
-            if (!$accessor->hasAccess($resource)) {
+            $target = $params['controller'] . '/' . $params['action'];
+            /** @var \Magere\Users\View\Helper\User $accessor */
+            if (!$accessor->hasAccess($target) && !$accessor->hasAccess($resource)) {
                 return false;
             }
         }

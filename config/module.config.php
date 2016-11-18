@@ -6,11 +6,11 @@ return [
     'assetic_configuration' => require_once 'assets.global.php',
 
 	'view_helpers' => [
-		'invokables' => [
-			'block' => View\Helper\Block::class,
+		'aliases' => [
+			'block' => View\Helper\BlockHelper::class,
 		],
 		'factories' => [
-			//'block' => ''
+            View\Helper\BlockHelper::class => View\Helper\Factory\BlockHelperFactory::class
 		],
 	],
 
