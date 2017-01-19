@@ -140,6 +140,11 @@ class Core implements BlockPluginInterface
         return $this;
     }
 
+    public function isClosure($closure)
+    {
+        return is_object($closure) && ($closure instanceof \Closure);
+    }
+
     public function get($name)
     {
         return isset($this->data[$name]) ? $this->data[$name] : null;

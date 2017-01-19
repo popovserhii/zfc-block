@@ -12,6 +12,11 @@ namespace Agere\Block\Block\Admin\Column;
 
 use Agere\Block\Block\Admin\Column;
 
+/**
+ * Class ColumnFactory
+ *
+ * @deprecated
+ */
 class ColumnFactory {
 
 	protected $specColumn = [

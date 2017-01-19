@@ -10,10 +10,11 @@
 
 namespace Agere\Block\Block\Admin;
 
+use Agere\Block\Block\Admin\Column\Column;
+use Agere\Block\Block\Core;
 use Zend\Stdlib\Exception;
-use Agere\Base\Plugin\ArrayUtils;
 
-class Columns {
+class Columns extends Core {
 
 	/**
 	 * Collection of items
@@ -47,11 +48,14 @@ class Columns {
 	 * Show field from item
 	 *
 	 * @param $name
-	 * @return Column\Column
+	 * @return Column
 	 */
-	public function show($name) {
+	public function show($name, $type = Column::class) {
 		if (!isset($this->displayed[$name])) {
-			$this->displayed[$name] = $this->getFactory()->create($name);
+			//$this->displayed[$name] = $this->getFactory()->create($name);
+			$column = $this->getFactory()->get($type);
+            $column->name($name);
+			$this->displayed[$name] = $column;
 		}
 
 		return $this->displayed[$name];

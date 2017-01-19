@@ -10,8 +10,10 @@
 
 namespace Agere\Block\Block\Admin\Column;
 
+use Agere\Block\Block\Core;
 
-class Column {
+class Column extends Core
+{
 
 	/**
 	 * Column name
@@ -29,7 +31,7 @@ class Column {
 	protected $headTemplate;
 
 
-	public function __construct($name) {
+	public function __construct($name = null) {
 		$this->name = $name;
 	}
 
@@ -52,7 +54,7 @@ class Column {
 	}
 
 	/**
-	 * @param string|closure $label
+	 * @param string|\Closure $label
 	 * @return $this
 	 */
 	public function label($label) {
@@ -84,10 +86,6 @@ class Column {
 		$this->wrap = $wrap;
 
 		return $this;
-	}
-
-	public function isClosure($closure) {
-		return is_object($closure) && ($closure instanceof \Closure);
 	}
 
 	public function render($item) {

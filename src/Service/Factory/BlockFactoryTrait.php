@@ -39,17 +39,17 @@ trait BlockFactoryTrait
 
         foreach ($blockConfig as $key => $value) {
             if (strpos($value, '::') !== false) {
-                // allow variant - "ViewHelperManager::user", "::user"
+                // allow variant - 'ViewHelperManager::user', '::user'
                 list($smKey, $helperKey) = explode('::', $value);
-                $value = $smKey ? $sm->get($smKey)->get($helperKey) : $sm->get($smKey);
+                $value = $smKey ? $sm->get($smKey)->get($helperKey) : $sm->get($helperKey);
             }
             $method = 'set' . ucfirst($key);
             $block->{$method}($value);
         }
 
-        $block->setRenderer($sm->get('ViewRenderer'));
-
-        //\Zend\Debug\Debug::dump($block); die(__METHOD__);
+        if (method_exists($block, 'setRenderer')) {
+            $block->setRenderer($sm->get('ViewRenderer'));
+        }
 
         return $block;
     }

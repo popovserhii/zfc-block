@@ -24,11 +24,22 @@ return [
 		'aliases' => [
             'AdminItems' => Block\Admin\Items::class,
             'AdminToolbar' => Block\Admin\Toolbar::class,
+            'Columns' => Block\Admin\Columns::class,
+
+            'Column' => Block\Admin\Column\Column::class,
+            'Sequence' => Block\Admin\Column\Sequence::class,
+            'Checkbox' => Block\Admin\Column\Checkbox::class,
         ],
 		//'invokables' => [],
         'factories' => [
             Block\Admin\Items::class => Service\Factory\BlockFactory::class,
             Block\Admin\Toolbar::class => Service\Factory\BlockFactory::class,
+            Block\Admin\Columns::class => Service\Factory\BlockFactory::class,
+
+            // columns
+            Block\Admin\Column\Column::class => Service\Factory\BlockFactory::class,
+            Block\Admin\Column\Sequence::class => Service\Factory\BlockFactory::class,
+            Block\Admin\Column\Checkbox::class => Service\Factory\BlockFactory::class,
         ],
 		'abstract_factories' => [
 			Service\Factory\BlockAbstractFactory::class,
@@ -36,6 +47,10 @@ return [
 		'shared' => [
             Block\Admin\Items::class => false,
             Block\Admin\Toolbar::class => false,
+            Block\Admin\Columns::class => false,
+            Block\Admin\Column\Column::class => false,
+            Block\Admin\Column\Sequence::class => false,
+            Block\Admin\Column\Checkbox::class => false,
 		]
 	],
 
@@ -47,6 +62,9 @@ return [
             Block\Admin\Toolbar::class => [
 				'template' => 'block/toolbar',
                 'accessor' => 'ViewHelperManager::user'
+			],
+            Block\Admin\Columns::class => [
+                'factory' => '::BlockPluginManager'
 			],
 		],
 	],
