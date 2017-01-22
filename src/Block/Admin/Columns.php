@@ -99,7 +99,7 @@ class Columns extends Core {
 	 * @param $name
 	 * @return Column\Column
 	 */
-	public function get($name) {
+	public function getColumn($name) {
 		return $this->displayed[$name];
 	}
 
