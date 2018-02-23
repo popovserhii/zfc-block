@@ -1,11 +1,11 @@
 {
-    "name": "agerecompany/zfc-block",
+    "name": "popov/zfc-block",
     "description": "Create separatly custom template bock with html, css, js etc.",
     "homepage": "http://agere.com.ua",
     "license": "MIT",
     "minimum-stability": "stable",
     "require": {
-        "php": ">=5.4"
+        "php": "^5.6 || ^7.0",
     },
     "autoload": {
     "psr-4": {
