@@ -9,7 +9,7 @@
     },
     "autoload": {
     "psr-4": {
-      "Agere\\Block\\": "src/"
+      "Popov\\ZfcBlock\\": "src/"
     }
   }
 }
