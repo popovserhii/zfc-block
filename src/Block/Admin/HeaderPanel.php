@@ -2,13 +2,13 @@
 /**
  * Enter description here...
  *
- * @category Agere
- * @package Agere_<package>
- * @author Popov Sergiy <popov@agere.com.ua>
+ * @category Popov
+ * @package Popov_<package>
+ * @author Serhii Popov <popow.serhii@gmail.com>
  * @datetime: 10.05.15 11:56
  */
 
-namespace Agere\Block\Block\Admin;
+namespace Popov\ZfcBlock\Block\Admin;
 
 class HeaderPanel {
 

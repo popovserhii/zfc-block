@@ -1,0 +1,109 @@
+<?php
+/**
+ * Block Factory
+ *
+ * @category Popov
+ * @package Popov_Block
+ * @author Serhii Popov <popow.serhii@gmail.com>
+ * @datetime: 17.02.15 22:24
+ */
+
+namespace Popov\ZfcBlock\Factory;
+
+//use Psr\Container\ContainerInterface;
+use Interop\Container\ContainerInterface;
+use Leafo\ScssPhp\Block;
+use Zend\ServiceManager\AbstractFactoryInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Exception;
+
+use Popov\ZfcBlock\Plugin\BlockPluginManager;
+use Popov\ZfcBlock\Block\Core;
+
+class BlockAbstractFactory implements AbstractFactoryInterface {
+
+    use BlockFactoryTrait;
+
+    /**
+     * @var BlockPluginManager
+     */
+    protected $manager;
+
+	protected $blockNames = [];
+
+    public function getClassName($container, $requestedName) {
+        $aliases = $container->get('config')['block_plugins']['aliases'];
+        $fullName = isset($aliases[$requestedName]) ? $aliases[$requestedName] : '';
+
+        if ((!$existsRequested = class_exists($requestedName)) && (!$existsFull = class_exists($fullName))) {
+            throw new Exception\ServiceNotFoundException(sprintf(
+                '%s: failed retrieving "%s"; class does not exist',
+                get_class($this) . '::' . __FUNCTION__,
+                $requestedName
+                //($name ? '(alias: ' . $name . ')' : '')
+            ));
+        }
+        $className = $existsRequested ? $requestedName : $fullName;
+
+        return $className;
+    }
+
+	public function canCreate(ContainerInterface $container, $name, array $option = null) {
+        //$bpm = $this->getBlockPluginManager($container);
+		//$blockName = isset($this->blockNames[$name]) ? $this->blockNames[$name] : $this->prepareBlockName($bpm, $name);
+		//return class_exists($blockName);
+
+        //return $bpm->has($name);
+
+        return $this->getClassName($container, $name);
+        //return true;
+	}
+
+    public function canCreateServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
+    {
+        return $this->canCreate($serviceLocator, $requestedName);
+    }
+
+    public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
+    {
+        return $this($serviceLocator, $requestedName);
+    }
+
+    public function __invokeOld(ContainerInterface $container, $requestedName, array $options = null)
+    {
+        /** @var BlockPluginManager $bpm */
+        $bpm = $this->getBlockPluginManager($container);
+
+        //$sm = $bpm->getServiceLocator();
+        //$config = $sm->get('Config');
+        //$routeMatch = $sm->get('Application')->getMvcEvent()->getRouteMatch();
+        //$blockName = $this->blockNames[$requestedName];
+
+        $className = $this->getClassName($container, $requestedName);
+
+        $block = $this->init($bpm, $className);
+
+        return $block;
+	}
+
+    /**
+     * Retrieve the form factory, creating it if necessary
+     *
+     * @param  ContainerInterface $services
+     * @return BlockPluginManager
+     */
+    protected function getBlockPluginManager(ContainerInterface $container)
+    {
+        if ($this->manager instanceof BlockPluginManager) {
+            return $this->manager;
+        }
+
+        $elements = null;
+        if ($container->has(BlockPluginManager::class)) {
+            $this->manager = $container->get(BlockPluginManager::class);
+        }
+
+        return $this->manager;
+    }
+
+}

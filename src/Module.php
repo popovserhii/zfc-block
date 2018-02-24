@@ -2,12 +2,12 @@
 /**
  * Wrapper for helper of Zend\View
  *
- * @category Agere
- * @package Agere_View
- * @author Popov Sergiy <popov@agere.com.ua>
+ * @category Popov
+ * @package Popov_View
+ * @author Serhii Popov <popow.serhii@gmail.com>
  * @datetime: 25.07.14 15:04
  */
-namespace Agere\Block;
+namespace Popov\ZfcBlock;
 
 use Zend\Mvc\ModuleRouteListener;
 use Zend\ModuleManager\ModuleManager;
@@ -22,7 +22,7 @@ class Module
         $serviceListener->addServiceManager(
             'BlockPluginManager',
             'block_plugins',
-            'Agere\Block\Service\Plugin\BlockPluginProviderInterface',
+            'Popov\ZfcBlock\Service\Plugin\BlockPluginProviderInterface',
             //'getProjectPluginConfig'
             'getBlockPluginConfig'
         );

@@ -11,5 +11,10 @@
     "psr-4": {
       "Popov\\ZfcBlock\\": "src/"
     }
+  },
+  "extra": {
+    "zf": {
+      "config-provider": "Popov\\ZfcBlock\\ConfigProvider"
+    }
   }
 }

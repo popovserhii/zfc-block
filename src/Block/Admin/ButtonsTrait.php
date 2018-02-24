@@ -2,12 +2,12 @@
 /**
  * Buttons Trait
  *
- * @category Agere
- * @package Agere_Block
- * @author Popov Sergiy <popov@agere.com.ua>
+ * @category Popov
+ * @package Popov_Block
+ * @author Serhii Popov <popow.serhii@gmail.com>
  * @datetime: 10.05.15 12:39
  */
-namespace Agere\Block\Block\Admin;
+namespace Popov\ZfcBlock\Block\Admin;
 
 use Zend\Stdlib\Exception;
 

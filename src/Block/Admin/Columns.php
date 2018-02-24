@@ -2,16 +2,16 @@
 /**
  * Columns of list items
  *
- * @category Agere
- * @package Agere_Block
- * @author Popov Sergiy <popov@agere.com.ua>
+ * @category Popov
+ * @package Popov_Block
+ * @author Serhii Popov <popow.serhii@gmail.com>
  * @datetime: 27.04.15 17:10
  */
 
-namespace Agere\Block\Block\Admin;
+namespace Popov\ZfcBlock\Block\Admin;
 
-use Agere\Block\Block\Admin\Column\Column;
-use Agere\Block\Block\Core;
+use Popov\ZfcBlock\Block\Admin\Column\Column;
+use Popov\ZfcBlock\Block\Core;
 use Zend\Stdlib\Exception;
 
 class Columns extends Core {

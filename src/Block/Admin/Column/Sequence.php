@@ -2,13 +2,13 @@
 /**
  * Sequence column
  *
- * @category Agere
- * @package Agere_Block
- * @author Popov Sergiy <popov@agere.com.ua>
+ * @category Popov
+ * @package Popov_Block
+ * @author Serhii Popov <popow.serhii@gmail.com>
  * @datetime: 07.05.15 10:56
  */
 
-namespace Agere\Block\Block\Admin\Column;
+namespace Popov\ZfcBlock\Block\Admin\Column;
 
 
 class Sequence extends Column {

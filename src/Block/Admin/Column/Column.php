@@ -2,15 +2,15 @@
 /**
  * Enter description here...
  *
- * @category Agere
- * @package Agere_<package>
- * @author Popov Sergiy <popov@agere.com.ua>
+ * @category Popov
+ * @package Popov_<package>
+ * @author Serhii Popov <popow.serhii@gmail.com>
  * @datetime: 27.04.15 17:33
  */
 
-namespace Agere\Block\Block\Admin\Column;
+namespace Popov\ZfcBlock\Block\Admin\Column;
 
-use Agere\Block\Block\Core;
+use Popov\ZfcBlock\Block\Core;
 
 class Column extends Core
 {

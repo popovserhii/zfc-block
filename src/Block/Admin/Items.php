@@ -2,15 +2,15 @@
 /**
  * Enter description here...
  *
- * @category Agere
- * @package Agere_<package>
- * @author Popov Sergiy <popov@agere.com.ua>
+ * @category Popov
+ * @package Popov_<package>
+ * @author Serhii Popov <popow.serhii@gmail.com>
  * @datetime: 25.04.15 21:37
  */
 
-namespace Agere\Block\Block\Admin;
+namespace Popov\ZfcBlock\Block\Admin;
 
-use Agere\Block\Block\Core;
+use Popov\ZfcBlock\Block\Core;
 
 class Items extends Core {
 

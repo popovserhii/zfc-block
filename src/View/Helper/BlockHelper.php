@@ -2,30 +2,35 @@
 /**
  * Block helper
  *
- * @category Agere
- * @package Agere_Block
- * @author Popov Sergiy <popov@agere.com.ua>
- * @datetime: 25.04.15 21:17
+ * @category Popov
+ * @package Popov_ZfcBlock
+ * @author Serhii Popov <popow.serhii@gmail.com>
  */
-namespace Agere\Block\View\Helper;
+
+namespace Popov\ZfcBlock\View\Helper;
 
 use Zend\EventManager\EventManagerAwareInterface;
 use Zend\EventManager\EventManagerAwareTrait;
 use Zend\View\Helper\AbstractHelper;
+use Zend\ServiceManager\Exception;
+
 //use Zend\ServiceManager\ServiceLocatorAwareInterface;
 //use Zend\ServiceManager\ServiceLocatorAwareTrait;
 //use Zend\ServiceManager\ServiceManager;
-use Agere\Block\Service\Plugin\BlockPluginManager;
+use Popov\ZfcBlock\Plugin\BlockPluginManager;
 
 class BlockHelper extends AbstractHelper implements EventManagerAwareInterface
 {
     use EventManagerAwareTrait;
 
+    protected $config;
+
     /** @var BlockPluginManager */
     protected $blockPluginManager;
 
-    public function __construct(BlockPluginManager $blockPluginManager)
+    public function __construct(BlockPluginManager $blockPluginManager, array $config)
     {
+        $this->config = $config;
         $this->blockPluginManager = $blockPluginManager;
     }
 
@@ -34,34 +39,50 @@ class BlockHelper extends AbstractHelper implements EventManagerAwareInterface
         return $this->blockPluginManager;
     }
 
-    public function getTemplate()
-    {
-    }
-
     public function render($block)
     {
+        if (is_string($block)) {
+            $block = $this->create($block);
+        }
         return $this->getView()->partial($block->getTemplate(), ['block' => $block]);
     }
 
     public function get($name)
     {
         $bpm = $this->getBlockPluginManager();
+        $className = $this->getClassName($name);
 
-        return $bpm->get($name);
+        return $bpm->get($className);
     }
 
     public function create($name, $variables = [])
     {
         $block = $this->get($name);
-
-        $this->getEventManager()->trigger(__FUNCTION__ . 'on', $block);
+        //$this->getEventManager()->trigger(__FUNCTION__ . 'on', $block);
         foreach ($variables as $key => $value) {
             $block->set($key, $value);
         }
         $this->getEventManager()->trigger(__FUNCTION__, $block);
 
-
         return $block;
+    }
+
+    public function getClassName($requestedName)
+    {
+        $aliases = $this->config['block_plugins']['aliases'];
+        $fullName = isset($aliases[$requestedName]) ? $aliases[$requestedName] : '';
+
+        if ((!$existsRequested = class_exists($requestedName)) && (!$existsFull = class_exists($fullName))) {
+            throw new Exception\ServiceNotFoundException(sprintf(
+                '%s: failed retrieving "%s"; class does not exist',
+                get_class($this) . '::' . __FUNCTION__,
+                $requestedName
+            //($name ? '(alias: ' . $name . ')' : '')
+            ));
+        }
+        $className = $existsRequested ? $requestedName : $fullName;
+
+        return $className;
     }
 
     public function __invoke()
@@ -70,7 +91,6 @@ class BlockHelper extends AbstractHelper implements EventManagerAwareInterface
         if (!$args) {
             return $this;
         }
-
         $name = $args[0];
         $variables = isset($args[1]) ? $args[1] : [];
 

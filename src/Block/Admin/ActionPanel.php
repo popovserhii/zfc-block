@@ -3,17 +3,17 @@
  * Action panel for admin block
  * Like Twitter Bootstrap toggle drop-down element
  *
- * @category Agere
- * @package Agere_Block
- * @author Popov Sergiy <popov@agere.com.ua>
+ * @category Popov
+ * @package Popov_Block
+ * @author Serhii Popov <popow.serhii@gmail.com>
  * @datetime: 25.04.15 23:31
  */
-namespace Agere\Block\Block\Admin;
+namespace Popov\ZfcBlock\Block\Admin;
 
 use Zend\Stdlib\Exception;
 use Zend\View\Helper\Url;
-use Agere\Block\Block\Core;
-use Agere\ArrayEx\ArrayEx;
+use Popov\ZfcBlock\Block\Core;
+use Popov\ArrayEx\ArrayEx;
 
 class ActionPanel extends Core
 {

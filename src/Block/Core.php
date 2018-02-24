@@ -2,16 +2,16 @@
 /**
  * Core block
  *
- * @category Agere
- * @package Agere_View
- * @author Popov Sergiy <popov@agere.com.ua>
+ * @category Popov
+ * @package Popov_View
+ * @author Serhii Popov <popow.serhii@gmail.com>
  * @datetime: 13.04.15 16:09
  */
-namespace Agere\Block\Block;
+namespace Popov\ZfcBlock\Block;
 
 use Zend\View\Helper\Url;
 use Zend\Stdlib\Exception\LogicException;
-use Agere\Block\Service\Plugin\BlockPluginInterface;
+use Popov\ZfcBlock\Plugin\BlockPluginInterface;
 
 class Core implements BlockPluginInterface
 {
@@ -80,7 +80,7 @@ class Core implements BlockPluginInterface
             $params = current($params);
             $resource = $urlPlugin($route, $params);
             $target = $params['controller'] . '/' . $params['action'];
-            /** @var \Magere\Users\View\Helper\User $accessor */
+            /** @var \Popov\ZfcUser\View\Helper\UserHelper $accessor */
             if (!$accessor->hasAccess($target) && !$accessor->hasAccess($resource)) {
                 return false;
             }

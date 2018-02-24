@@ -3,14 +3,14 @@
  * Toolbar panel is wrapper block which include:
  * ActionPanel, NavPanel, Buttons etc.
  *
- * @category Agere
- * @package Agere_Block
- * @author Popov Sergiy <popov@agere.com.ua>
+ * @category Popov
+ * @package Popov_Block
+ * @author Serhii Popov <popow.serhii@gmail.com>
  * @datetime: 13.01.2016 22:10
  */
-namespace Agere\Block\Block\Admin;
+namespace Popov\ZfcBlock\Block\Admin;
 
-use Agere\Block\Block\Core;
+use Popov\ZfcBlock\Block\Core;
 
 class Toolbar extends Core
 {

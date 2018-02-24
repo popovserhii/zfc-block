@@ -2,13 +2,13 @@
 /**
  * Plugin Provider Interface
  *
- * @category Agere
- * @package Agere_Block
- * @author Popov Sergiy <popov@agere.com.ua>
+ * @category Popov
+ * @package Popov_Block
+ * @author Serhii Popov <popow.serhii@gmail.com>
  * @datetime: 09.03.15 22:50
  */
 
-namespace Agere\Block\Service\Plugin;
+namespace Popov\ZfcBlock\Plugin;
 
 interface BlockPluginProviderInterface {
 

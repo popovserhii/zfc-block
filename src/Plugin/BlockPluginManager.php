@@ -2,13 +2,13 @@
 /**
  * Plugin Manager
  *
- * @category Agere
- * @package Agere_Block
- * @author Popov Sergiy <popov@agere.com.ua>
+ * @category Popov
+ * @package Popov_Block
+ * @author Serhii Popov <popow.serhii@gmail.com>
  * @datetime: 09.03.15 21:29
  */
 
-namespace Agere\Block\Service\Plugin;
+namespace Popov\ZfcBlock\Plugin;
 
 use Zend\Stdlib\Exception;
 use Zend\ServiceManager\AbstractPluginManager;
@@ -23,7 +23,7 @@ class BlockPluginManager extends AbstractPluginManager {
 	 */
 	protected $invokableClasses = [];
 
-	public function validatePlugin($plugin) {
+	public function validate($plugin) {
 		if ($plugin instanceof BlockPluginInterface) {
 			// we're okay
 			return;

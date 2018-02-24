@@ -1,5 +1,8 @@
 <?php
-namespace Agere\Block;
+namespace Popov\ZfcBlock;
+
+use Popov\ZfcBlock\Plugin\BlockPluginManager;
+use Popov\ZfcBlock\Factory\BlockPluginManagerFactory;
 
 return [
 
@@ -14,9 +17,24 @@ return [
 		],
 	],
 
-	'service_manager' => [
+    // Middleware way
+	'dependencies' => [
+	    'aliases' => [
+            'BlockPluginManager' => BlockPluginManager::class,
+        ],
 		'factories' => [
-			'BlockPluginManager' => Service\Plugin\BlockPluginFactory::class,
+            BlockPluginManager::class => BlockPluginManagerFactory::class,
+        ],
+	],
+
+    // MVC way. 'service_manager' config leave only for compatibility with ZF ModuleManager.
+    // As BlockPluginManager is created on the top level of project initialization.
+	'service_manager' => [
+        'aliases' => [
+            'BlockPluginManager' => BlockPluginManager::class,
+        ],
+		'factories' => [
+            BlockPluginManager::class => Plugin\BlockPluginFactory::class, // this difference is important
 		],
 	],
 
@@ -32,17 +50,17 @@ return [
         ],
 		//'invokables' => [],
         'factories' => [
-            Block\Admin\Items::class => Service\Factory\BlockFactory::class,
-            Block\Admin\Toolbar::class => Service\Factory\BlockFactory::class,
-            Block\Admin\Columns::class => Service\Factory\BlockFactory::class,
+            Block\Admin\Items::class => Factory\BlockFactory::class,
+            Block\Admin\Toolbar::class => Factory\BlockFactory::class,
+            Block\Admin\Columns::class => Factory\BlockFactory::class,
 
             // columns
-            Block\Admin\Column\Column::class => Service\Factory\BlockFactory::class,
-            Block\Admin\Column\Sequence::class => Service\Factory\BlockFactory::class,
-            Block\Admin\Column\Checkbox::class => Service\Factory\BlockFactory::class,
+            Block\Admin\Column\Column::class => Factory\BlockFactory::class,
+            Block\Admin\Column\Sequence::class => Factory\BlockFactory::class,
+            Block\Admin\Column\Checkbox::class => Factory\BlockFactory::class,
         ],
 		'abstract_factories' => [
-			Service\Factory\BlockAbstractFactory::class,
+			//Factory\BlockAbstractFactory::class,
 		],
 		'shared' => [
             Block\Admin\Items::class => false,
@@ -51,7 +69,10 @@ return [
             Block\Admin\Column\Column::class => false,
             Block\Admin\Column\Sequence::class => false,
             Block\Admin\Column\Checkbox::class => false,
-		]
+		],
+        'initializers' => [
+            'BlockPluginInterface' => Factory\BlockInitializer::class,
+        ],
 	],
 
 	'block_plugin_config' => [
