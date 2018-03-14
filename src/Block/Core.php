@@ -73,18 +73,20 @@ class Core implements BlockPluginInterface
 
     public function hasAccess($params)
     {
-        if (($accessor = $this->getAccessor())) {
-            /** @var Url $urlPlugin */
-            $urlPlugin = $this->getRenderer()->plugin('url');
-            $route = key($params);
-            $params = current($params);
-            $resource = $urlPlugin($route, $params);
-            $target = $params['controller'] . '/' . $params['action'];
-            /** @var \Popov\ZfcUser\View\Helper\UserHelper $accessor */
-            if (!$accessor->hasAccess($target) && !$accessor->hasAccess($resource)) {
-                return false;
-            }
-        }
+        // @todo-popov Знайти можливість як передавати accessor на основі конфігів, як от ViewHelperManager::user.
+        // Можна спробувати просто замість $params передавати $target цим самим прибравши залежність з Block в генерації url
+        #if (($accessor = $this->getAccessor())) {
+        #    /** @var Url $urlPlugin */
+        #    $urlPlugin = $this->getRenderer()->plugin('url');
+        #    $route = key($params);
+        #    $params = current($params);
+        #    $resource = $urlPlugin($route, $params);
+        #    $target = $params['controller'] . '/' . $params['action'];
+        #    /** @var \Popov\ZfcUser\View\Helper\UserHelper $accessor */
+        #    if (!$accessor->hasAccess($target) && !$accessor->hasAccess($resource)) {
+        #        return false;
+        #    }
+        #}
         return true;
     }
 
@@ -123,6 +125,7 @@ class Core implements BlockPluginInterface
 
     public function getRenderer()
     {
+        throw new \Exception('Remove this. I simply want to know where this is called.');
         return $this->renderer;
     }
 

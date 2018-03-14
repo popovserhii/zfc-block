@@ -2,13 +2,13 @@
 /**
  * Buttons template
  *
- * @category Agere
- * @package Agere_Block
+ * @category Popov
+ * @package Popov_Block
  * @author Serhii Popov <popow.serhii@gmail.com>
  * @datetime: 15.01.2016 15:48
  */
 ?>
-<?php /** @var Agere\Block\Block\Core $block */ ?>
+<?php /** @var Popov\Block\Block\Core $block */ ?>
 <?php if (isset($block) && ($buttons = $block->getButtons())) : ?>
 	<div class="<?= $block->getButtonsWrapperClass() ?>">
 		<?php foreach ($buttons as $name => $attrs) : ?>

@@ -1,5 +1,5 @@
 <?php
-namespace Agere\Block;
+namespace Popov\ZfcBlock;
 
 return [
     'default' => [

@@ -21,14 +21,15 @@ trait BlockFactoryTrait
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         /** @var BlockPluginManager $bpm */
-        $bpm = $this->getBlockPluginManager($container);
+        //$bpm = $this->getBlockPluginManager($container);
+        //$bpm = $container->get(BlockPluginManager::class);
 
         //$className = $this->getClassName($container, $requestedName);
 
         /** @var Core $block */
         $block = new $requestedName();
 
-        $block = $this->init($bpm, $block);
+        $block = $this->init(/*$bpm*/$container, $block);
 
         return $block;
     }
