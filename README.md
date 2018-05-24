@@ -96,7 +96,7 @@ For example, block template can have next view
 <?php
 $form = $block->getLoginForm();
 $form->setAttribute('action', $this->url('default', [
-    'resource' => 'visitor',
+    'controller' => 'visitor',
     'action' => 'login',
 ]));
 $form->prepare();

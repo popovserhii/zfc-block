@@ -51,7 +51,7 @@ trait BlockFactoryTrait
         if ($container->has(CurrentHelper::class)) {
             /** @var CurrentHelper $current */
             $current = $container->get(CurrentHelper::class);
-            $controllerKey = $current->currentResource() . '/' . $current->currentAction();
+            $controllerKey = $current->currentController() . '/' . $current->currentAction();
 
             $actionConfig = $config['block_plugin_config'][$controllerKey][$blockName] ?? [];
             $blockConfig = array_merge($blockConfig, $actionConfig);
