@@ -4,19 +4,16 @@ namespace Popov\ZfcBlock;
 return [
     'default' => [
         'assets' => [
-            '@block_css',
+            //'@block_css',
             '@block_js',
         ],
-        /*'options' => [
-            'mixin' => true,
-        ],*/
     ],
 
     'modules' => [
         __NAMESPACE__ => [
             'root_path' => __DIR__ . '/../view/assets',
             'collections' => [
-                'block_css' => [
+                /*'block_css' => [
                     'assets' => [
                         //'css/test.css',
                     ],
@@ -25,7 +22,7 @@ return [
                             'name' => 'Assetic\Filter\CssRewriteFilter',
                         ],
                     ],
-                ],
+                ],*/
                 'block_js' => [
                     'assets' => [
                         'js/admin/action-panel.js',
