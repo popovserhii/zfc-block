@@ -4,12 +4,8 @@ namespace Popov\ZfcBlock;
 return [
     'default' => [
         'assets' => [
-            '@block_css',
             '@block_js',
         ],
-        /*'options' => [
-            'mixin' => true,
-        ],*/
     ],
 
     'modules' => [
