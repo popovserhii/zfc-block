@@ -11,7 +11,6 @@ namespace Popov\ZfcBlock;
 
 use Zend\Mvc\ModuleRouteListener;
 use Zend\ModuleManager\ModuleManager;
-use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 
 class Module
 {
@@ -23,7 +22,6 @@ class Module
             'BlockPluginManager',
             'block_plugins',
             'Popov\ZfcBlock\Service\Plugin\BlockPluginProviderInterface',
-            //'getProjectPluginConfig'
             'getBlockPluginConfig'
         );
     }
