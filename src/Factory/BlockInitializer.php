@@ -28,7 +28,6 @@ class BlockInitializer
         }
 
         if ($instance instanceof BlockPluginInterface) {
-            //$instance->setObjectManager($container->get('Doctrine\ORM\EntityManager'));
             $this->init($container, $instance);
         }
     }

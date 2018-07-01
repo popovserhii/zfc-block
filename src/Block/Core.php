@@ -29,6 +29,8 @@ class Core implements BlockPluginInterface
 
     protected $variablesKey = 'variables';
 
+    protected $attributesKey = 'attributes';
+
     public function setTemplate($template)
     {
         $this->template = $template;
@@ -96,9 +98,8 @@ class Core implements BlockPluginInterface
             return false;
         }
         $attrsStr = '';
-        //\Zend\Debug\Debug::dump($attrs);
         foreach ($attrs as $name => $value) {
-            $attrsStr .= $this->renderAttr($name, $value);
+            $attrsStr .= ' ' . $this->renderAttr($name, $value);
         }
 
         return $attrsStr;
@@ -199,5 +200,54 @@ class Core implements BlockPluginInterface
     public function getVariable($name)
     {
         return isset($this->data[$this->variablesKey][$name]) ? $this->data[$this->variablesKey][$name] : null;
+    }
+
+
+    /**
+     * Set block attributes
+     *
+     * @param array $variables
+     * @return $this
+     */
+    public function setAttributes(array $variables)
+    {
+        $this->data[$this->attributesKey] = $variables;
+
+        return $this;
+    }
+
+    /**
+     * Get block attributes
+     *
+     * @return array
+     */
+    public function getAttributes()
+    {
+        return $this->data[$this->attributesKey];
+    }
+
+    /**
+     * Set block attribute
+     *
+     * @param $name
+     * @param $value
+     * @return $this
+     */
+    public function setAttribute($name, $value)
+    {
+        $this->data[$this->attributesKey][$name] = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get block attribute
+     *
+     * @param $name
+     * @return mixed
+     */
+    public function getAttribute($name)
+    {
+        return isset($this->data[$this->attributesKey][$name]) ? $this->data[$this->attributesKey][$name] : null;
     }
 }

@@ -37,14 +37,9 @@ trait BlockFactoryTrait
     public function init(ContainerInterface $container, $block/*, $requestedName*/)
     {
         /** @var BlockPluginManager $bpm */
-        //$bpm = $this->getBlockPluginManager();
-        //$sm = $bpm->getServiceLocator();
         $config = $container->get('config');
 
-        //$routeMatch = $container->get('Application')->getMvcEvent()->getRouteMatch();
-
         /** @var Core $block */
-        //$block = new $blockName();
         $blockName = get_class($block);
         $blockConfig = $config['block_plugin_config']['default'][$blockName] ?? [];
 
@@ -56,9 +51,9 @@ trait BlockFactoryTrait
             $actionConfig = $config['block_plugin_config'][$controllerKey][$blockName] ?? [];
             $blockConfig = array_merge($blockConfig, $actionConfig);
 
-            if (method_exists($block, 'setRenderer')) {
-                $block->setRenderer($current->currentRenderer());
-            }
+            #if (method_exists($block, 'setRenderer')) {
+            #    $block->setRenderer($current->currentRenderer());
+            #}
         }
 
         foreach ($blockConfig as $param => $value) {

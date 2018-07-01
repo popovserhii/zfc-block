@@ -13,10 +13,6 @@ use Zend\EventManager\EventManagerAwareInterface;
 use Zend\EventManager\EventManagerAwareTrait;
 use Zend\View\Helper\AbstractHelper;
 use Zend\ServiceManager\Exception;
-
-//use Zend\ServiceManager\ServiceLocatorAwareInterface;
-//use Zend\ServiceManager\ServiceLocatorAwareTrait;
-//use Zend\ServiceManager\ServiceManager;
 use Popov\ZfcBlock\Plugin\BlockPluginManager;
 
 class BlockHelper extends AbstractHelper implements EventManagerAwareInterface
