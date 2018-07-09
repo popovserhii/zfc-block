@@ -9,7 +9,7 @@
  */
 namespace Popov\ZfcBlock\Factory;
 
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\ServiceManager\Exception;
 use Popov\ZfcCurrent\CurrentHelper;
