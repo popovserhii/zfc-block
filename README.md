@@ -123,22 +123,40 @@ All config parameters will be set with `setter`.
 
 * `default` key sets general configuration for `Block`
 * also configuration can be set per `resource/action`, where *resource* in most cases is `controller` or `module` taken from URL.
-    ```php
-        return [
-            // ...
-            'block_plugins' => [
-                'aliases' => [
-                    'VisitorLogin' => \Your\Module\Block\LoginBlock::class,
-                ],
+```php
+return [
+    // ...
+    'block_plugins' => [
+        'aliases' => [
+            'VisitorLogin' => \Your\Module\Block\LoginBlock::class,
+        ],
+    ],
+    'block_plugin_config' => [
+        'visitor/login' => [
+            \Your\Module\Block\LoginBlock::class => [
+                'template' => 'visitor::login'
             ],
-            'block_plugin_config' => [
-                'visitor/login' => [
-                    \Your\Module\Block\LoginBlock::class => [
-                        'template' => 'visitor::login'
-                    ],
-                ],
-            ],
-        ];
-        ```
+        ],
+    ],
+];
+```
       
- If you need some complex parameters in your `Block` use `Factory` for this purpose.   
+If you need some complex parameters in your `Block` use `Factory` for this purpose.
+ 
+## Types
+* list (roster)
+
+In action:
+```php
+public function process(\Psr\Http\Message\ServerRequestInterface $request)
+{
+	$viewModel = (new ViewModel())->setTemplate('block::list')
+		->addChild($viewModelOne, 'one')
+		->addChild($viewModelTwo, 'two')
+		->addChild($viewModelThree, 'three');
+
+	return $viewModel;
+}
+```
+All your blocks will be rendered automatically one by one.
+

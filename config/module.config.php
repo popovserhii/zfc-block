@@ -97,9 +97,9 @@ return [
             'block/buttons' => __DIR__ . '/../view/block/buttons.phtml',
             'block/action-panel' => __DIR__ . '/../view/block/action-panel.phtml',
         ],
-		'template_path_stack' => [
-			__NAMESPACE__ => __DIR__ . '/../view',
-		],
+        'prefix_template_path_stack' => [
+            'block::' => __DIR__ . '/../view/block',
+        ],
 	],
 
     // middleware
