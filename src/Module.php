@@ -21,21 +21,25 @@ class Module
         $serviceListener->addServiceManager(
             'BlockPluginManager',
             'block_plugins',
-            'Popov\ZfcBlock\Service\Plugin\BlockPluginProviderInterface',
+            Plugin\BlockPluginProviderInterface::class,
             'getBlockPluginConfig'
         );
     }
 
-    public function onBootstrap($e)
+    /*public function onBootstrap($e)
     {
         $e->getApplication()->getServiceManager()->get('translator');
         $eventManager = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
-    }
+    }*/
 
     public function getConfig()
     {
-        return include __DIR__ . '/../config/module.config.php';
+        $config = include __DIR__ . '/../config/module.config.php';
+        $config['service_manager'] = $config['dependencies'];
+        unset($config['dependencies']);
+
+        return $config;
     }
 }

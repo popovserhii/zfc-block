@@ -27,17 +27,6 @@ return [
 		],
 	],
 
-    // MVC way. 'service_manager' config leave only for compatibility with ZF ModuleManager.
-    // As BlockPluginManager is created on the top level of project initialization.
-	'service_manager' => [
-        'aliases' => [
-            'BlockPluginManager' => BlockPluginManager::class,
-        ],
-		'factories' => [
-            BlockPluginManager::class => Plugin\BlockPluginFactory::class, // this difference is important
-		],
-	],
-
 	'block_plugins' => [
 		'aliases' => [
             'AdminItems' => Block\Admin\Items::class,
