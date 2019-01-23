@@ -1,6 +1,6 @@
 <?php
 /**
- * Columns of list selectedItems
+ * Columns of list items
  *
  * @category Popov
  * @package Popov_Block
@@ -17,7 +17,7 @@ use Zend\Stdlib\Exception;
 class Columns extends Core {
 
 	/**
-	 * Collection of selectedItems
+	 * Collection of items
 	 *
 	 * @var \Countable
 	 */
