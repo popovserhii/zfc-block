@@ -67,7 +67,7 @@ return [
 	'block_plugin_config' => [
 		'default' => [
             Block\Admin\Items::class => [
-				'template' => 'block/items'
+				'template' => 'block/selectedItems'
 			],
             Block\Admin\Toolbar::class => [
 				'template' => 'block/toolbar',
@@ -81,7 +81,7 @@ return [
 
 	'view_manager' => [
 		'template_map' => [
-            'block/items' => __DIR__ . '/../view/block/items.phtml',
+            'block/selectedItems' => __DIR__ . '/../view/block/items.phtml',
             'block/toolbar' => __DIR__ . '/../view/block/toolbar.phtml',
             'block/buttons' => __DIR__ . '/../view/block/buttons.phtml',
             'block/action-panel' => __DIR__ . '/../view/block/action-panel.phtml',
@@ -94,7 +94,7 @@ return [
     // middleware
     'templates' => [
         'map' => [
-            'block/items' => __DIR__ . '/../view/block/items.phtml',
+            'block/selectedItems' => __DIR__ . '/../view/block/items.phtml',
             'block/toolbar' => __DIR__ . '/../view/block/toolbar.phtml',
             'block/buttons' => __DIR__ . '/../view/block/buttons.phtml',
             'block/action-panel' => __DIR__ . '/../view/block/action-panel.phtml',

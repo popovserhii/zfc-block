@@ -2,7 +2,7 @@ jQuery(document).ready(function($) {
 	var dropDownMenu = $('table .dropdown-menu');
 	var active = dropDownMenu.find('li').eq(0).addClass('active').find('a'); // default action
 	dropDownMenu.find('a').click(function(e) {
-		if (!confirm('Are you sure you want to "' + $(this).text() + '" marked items?')) {
+		if (!confirm('Are you sure you want to "' + $(this).text() + '" marked selectedItems?')) {
 			return false;
 		}
 		e.preventDefault();
